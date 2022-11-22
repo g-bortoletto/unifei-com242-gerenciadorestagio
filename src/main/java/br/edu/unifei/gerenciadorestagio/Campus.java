@@ -1,4 +1,4 @@
-package br.edu.unifei.gerenciadorestagio.models;
+package br.edu.unifei.gerenciadorestagio;
 
 public enum Campus {
     ITAJUBA,

@@ -1,6 +1,5 @@
-package br.edu.unifei.gerenciadorestagio.controllers;
+package br.edu.unifei.gerenciadorestagio;
 
-import br.edu.unifei.gerenciadorestagio.models.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +13,8 @@ public class InstitutoController {
     }
 
     @PostMapping("instituto/add")
-    public void AdicionarInstituto(@RequestBody Instituto instituto) {
-
+    public Instituto AdicionarInstituto(@RequestBody Instituto instituto) {
+        repository.save(instituto);
+        return instituto;
     }
 }
