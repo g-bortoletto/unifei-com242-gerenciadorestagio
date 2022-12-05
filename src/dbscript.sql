@@ -13,7 +13,7 @@ CREATE TABLE  IF NOT EXISTS curso(
 	periodo enum_periodo
 );
 
-CREATE TABLE IF NOT EXISTS coordenado_estagio (
+CREATE TABLE IF NOT EXISTS coordenador_estagio (
 	id serial primary key,
 	nome varchar(100) not null unique,
 	cpf varchar(11) unique,

@@ -8,7 +8,7 @@ public class Coordenador {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Long id;
 
-    @Column(unique = true)
+    @Column(nullable = false)
     public String nome;
 
     @Column(unique = true)
@@ -20,6 +20,11 @@ public class Coordenador {
     public Campus campus;
     public String email;
     public String telefone;
-    public int instituto_id;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    public Instituto instituto;
     public String senha;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    public Endereco endereco;
 }

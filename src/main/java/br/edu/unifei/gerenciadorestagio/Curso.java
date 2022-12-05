@@ -1,6 +1,8 @@
 package br.edu.unifei.gerenciadorestagio;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Curso {
@@ -15,4 +17,12 @@ public class Curso {
     public String nome;
 
     public Periodo periodo;
+
+    @OneToMany()
+    public List<Aluno> alunos = new ArrayList<Aluno>();
+
+    @OneToMany()
+    public List<Professor> professores = new ArrayList<Professor>();
+
+
 }
