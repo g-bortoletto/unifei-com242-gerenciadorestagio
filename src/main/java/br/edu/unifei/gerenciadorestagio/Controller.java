@@ -27,9 +27,9 @@ public class Controller {
 
     @PostMapping("instituto/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public MInstituto AdicionarInstituto(@RequestBody MInstituto mInstituto) {
-        institutos.save(mInstituto);
-        return mInstituto;
+    public MInstituto AdicionarInstituto(@RequestBody MInstituto instituto) {
+        institutos.save(instituto);
+        return instituto;
     }
 
     @GetMapping("instituto/get")
@@ -44,8 +44,8 @@ public class Controller {
 
     @PostMapping("curso/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public MCurso AdicionarCurso(@RequestBody MCurso mCurso) {
-        cursos.save(mCurso);
-        return mCurso;
+    public MCurso AdicionarCurso(@RequestBody MCurso curso) {
+        cursos.save(curso);
+        return curso;
     }
 }
