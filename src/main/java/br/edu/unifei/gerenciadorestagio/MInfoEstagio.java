@@ -10,10 +10,10 @@ public class MInfoEstagio {
     public Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
-    public MEmpresa mEmpresa;
+    public MEmpresa empresa;
 
     @OneToOne(cascade = CascadeType.ALL)
-    public MAluno mAluno;
+    public MAluno aluno;
 
     @OneToOne(cascade = CascadeType.ALL)
     public MProfessor professor;

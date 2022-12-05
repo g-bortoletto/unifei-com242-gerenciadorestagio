@@ -22,7 +22,7 @@ public class MProfessor {
     @Column(unique = true)
     public String matricula;
 
-    public ECampus ECampus;
+    public ECampus campus;
 
     public String telefone;
 
@@ -30,10 +30,10 @@ public class MProfessor {
     public String email;
 
     @Column(nullable = false)
-    public Integer endereco_id;
+    public Integer enderecoId;
 
 
     @OneToMany(cascade = CascadeType.ALL)
-    public List<MAluno> mAlunos = new ArrayList<MAluno>();
+    public List<MAluno> alunos = new ArrayList<MAluno>();
 
 }

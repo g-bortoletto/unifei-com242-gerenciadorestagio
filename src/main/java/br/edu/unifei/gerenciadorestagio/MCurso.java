@@ -16,10 +16,10 @@ public class MCurso {
     @Column(unique = true)
     public String nome;
 
-    public EPeriodo EPeriodo;
+    public EPeriodo periodo;
 
     @OneToMany()
-    public List<MAluno> mAlunos = new ArrayList<MAluno>();
+    public List<MAluno> alunos = new ArrayList<MAluno>();
 
     @OneToMany()
     public List<MProfessor> professores = new ArrayList<MProfessor>();

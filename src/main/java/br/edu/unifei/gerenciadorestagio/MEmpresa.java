@@ -16,5 +16,5 @@ public class MEmpresa {
     public String tipoEmpresa;
 
     @OneToOne(cascade = CascadeType.ALL)
-    public MEndereco mEndereco;
+    public MEndereco endereco;
 }

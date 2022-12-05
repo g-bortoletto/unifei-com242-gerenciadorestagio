@@ -17,14 +17,14 @@ public class MCoordenador {
     @Column(unique = true)
     public String rg;
 
-    public ECampus ECampus;
+    public ECampus campus;
     public String email;
     public String telefone;
 
     @OneToOne(cascade = CascadeType.ALL)
-    public MInstituto mInstituto;
+    public MInstituto instituto;
     public String senha;
 
     @OneToOne(cascade = CascadeType.ALL)
-    public MEndereco mEndereco;
+    public MEndereco endereco;
 }

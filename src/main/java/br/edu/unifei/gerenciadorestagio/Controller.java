@@ -46,6 +46,7 @@ public class Controller {
 
     @GetMapping("instituto/get")
     @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
     public Iterable Institutos() {
         return institutos.findAll();
     }
@@ -74,15 +75,14 @@ public class Controller {
 
     @GetMapping("alunos/")
     @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
     public Iterable Alunos() {
         return alunos.findAll();
     }
 
     @GetMapping("alunos/groupByOrientador/{id}")
     @ResponseStatus(HttpStatus.OK)
-//    public MAluno getUser(@PathVariable("professorId") String id) { ... }
-
-
+    @ResponseBody
     public ResponseEntity<MAluno> getById(@PathVariable long id) {
 
         Optional<MAluno> aluno = alunos.findById(id);
