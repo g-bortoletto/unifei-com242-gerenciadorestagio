@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Instituto {
+public class MInstituto {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Long id;

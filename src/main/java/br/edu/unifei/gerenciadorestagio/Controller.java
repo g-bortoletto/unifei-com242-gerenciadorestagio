@@ -1,20 +1,19 @@
 package br.edu.unifei.gerenciadorestagio;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class Controller {
 
-    public final RepoInstituto institutos;
-    public final RepoCoordenador coordenadores;
-    public final RepoCurso cursos;
+    public final IRInstituto institutos;
+    public final IRCoordenador coordenadores;
+    public final IRCurso cursos;
 
     Controller(
-        RepoInstituto institutos,
-        RepoCoordenador coordenadores,
-        RepoCurso cursos
+        IRInstituto institutos,
+        IRCoordenador coordenadores,
+        IRCurso cursos
     ) {
         this.institutos = institutos;
         this.coordenadores = coordenadores;
@@ -28,9 +27,9 @@ public class Controller {
 
     @PostMapping("instituto/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public Instituto AdicionarInstituto(@RequestBody Instituto instituto) {
-        institutos.save(instituto);
-        return instituto;
+    public MInstituto AdicionarInstituto(@RequestBody MInstituto mInstituto) {
+        institutos.save(mInstituto);
+        return mInstituto;
     }
 
     @GetMapping("instituto/get")
@@ -45,8 +44,8 @@ public class Controller {
 
     @PostMapping("curso/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public Curso AdicionarCurso(@RequestBody Curso curso) {
-        cursos.save(curso);
-        return curso;
+    public MCurso AdicionarCurso(@RequestBody MCurso mCurso) {
+        cursos.save(mCurso);
+        return mCurso;
     }
 }
