@@ -1,6 +1,6 @@
 package br.edu.unifei.gerenciadorestagio;
 
-public enum Periodo {
+public enum EPeriodo {
     VESPERTINO,
     INTEGRAL,
     NOTURNO

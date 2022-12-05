@@ -3,7 +3,7 @@ package br.edu.unifei.gerenciadorestagio;
 import javax.persistence.*;
 
 @Entity
-public class Aluno {
+public class MAluno {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Long id;
@@ -23,7 +23,7 @@ public class Aluno {
     @Column(nullable = false )
     public String curso;
 
-    public Campus campus;
+    public ECampus ECampus;
 
     public String telefone;
 
@@ -31,12 +31,12 @@ public class Aluno {
     public String email;
 
     @Column(nullable = false)
-    public Integer professor_id;
+    public Integer professorId;
 
     @Column(nullable = false)
-    public Integer endereco_id;
+    public Integer enderecoId;
 
     @Column(nullable = false)
-    public Integer curso_id;
+    public Integer cursoId;
 
 }

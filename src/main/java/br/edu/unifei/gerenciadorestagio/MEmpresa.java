@@ -3,18 +3,18 @@ package br.edu.unifei.gerenciadorestagio;
 import javax.persistence.*;
 
 @Entity
-public class Empresa {
+public class MEmpresa {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Long id;
 
     @Column(nullable = false)
-    public String razao_social;
+    public String razaoSocial;
 
-    public String atividade_principal;
+    public String atividadePrincipal;
 
-    public String tipo_empresa;
+    public String tipoEmpresa;
 
     @OneToOne(cascade = CascadeType.ALL)
-    public Endereco endereco;
+    public MEndereco mEndereco;
 }

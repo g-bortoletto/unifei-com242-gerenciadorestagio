@@ -3,7 +3,7 @@ package br.edu.unifei.gerenciadorestagio;
 import javax.persistence.*;
 
 @Entity
-public class Coordenador {
+public class MCoordenador {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Long id;
@@ -17,14 +17,14 @@ public class Coordenador {
     @Column(unique = true)
     public String rg;
 
-    public Campus campus;
+    public ECampus ECampus;
     public String email;
     public String telefone;
 
     @OneToOne(cascade = CascadeType.ALL)
-    public Instituto instituto;
+    public MInstituto mInstituto;
     public String senha;
 
     @OneToOne(cascade = CascadeType.ALL)
-    public Endereco endereco;
+    public MEndereco mEndereco;
 }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Professor {
+public class MProfessor {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Long id;
@@ -22,7 +22,7 @@ public class Professor {
     @Column(unique = true)
     public String matricula;
 
-    public Campus campus;
+    public ECampus ECampus;
 
     public String telefone;
 
@@ -34,6 +34,6 @@ public class Professor {
 
 
     @OneToMany(cascade = CascadeType.ALL)
-    public List<Aluno> alunos = new ArrayList<Aluno>();
+    public List<MAluno> mAlunos = new ArrayList<MAluno>();
 
 }

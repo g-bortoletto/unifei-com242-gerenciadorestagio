@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Curso {
+public class MCurso {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Long id;
@@ -16,13 +16,13 @@ public class Curso {
     @Column(unique = true)
     public String nome;
 
-    public Periodo periodo;
+    public EPeriodo EPeriodo;
 
     @OneToMany()
-    public List<Aluno> alunos = new ArrayList<Aluno>();
+    public List<MAluno> mAlunos = new ArrayList<MAluno>();
 
     @OneToMany()
-    public List<Professor> professores = new ArrayList<Professor>();
+    public List<MProfessor> professores = new ArrayList<MProfessor>();
 
 
 }

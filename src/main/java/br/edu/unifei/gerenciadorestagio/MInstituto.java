@@ -6,20 +6,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Endereco {
-
+public class MInstituto {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Long id;
 
-    public String logradouro;
-
-    public Integer numero;
-
-    public String complemento;
-
-    public String cidade;
-
-    public String cep;
-
+    public String nome;
 }
