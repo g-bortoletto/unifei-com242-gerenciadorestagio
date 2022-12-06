@@ -1,35 +1,35 @@
 package br.edu.unifei.gerenciadorestagio;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 public class Controller {
 
-    public final IRInstituto institutos;
-    public final IRCoordenador coordenadores;
-    public final IRCurso cursos;
-    public final IRAluno alunos;
-    public final IREmpresa empresas;
-    public final IRProfessor professores;
+    public final IRInstituto m_institutos;
+    public final IRCoordenador m_coordenadores;
+    public final IRCurso m_cursos;
+    public final IRAluno m_alunos;
+    public final IREmpresa m_empresas;
+    public final IRProfessor m_professores;
+
     Controller(
-        IRInstituto institutos,
-        IRCoordenador coordenadores,
-        IRCurso cursos,
-        IRAluno alunos,
-        IREmpresa empresas,
-        IRProfessor professores
-    ) {
-        this.institutos = institutos;
-        this.coordenadores = coordenadores;
-        this.cursos = cursos;
-        this.alunos = alunos;
-        this.empresas = empresas;
-        this.professores = professores;
+        IRInstituto m_institutos,
+        IRCoordenador m_coordenadores,
+        IRCurso m_cursos,
+        IRAluno m_alunos,
+        IREmpresa m_empresas,
+        IRProfessor m_professores) {
+        this.m_institutos = m_institutos;
+        this.m_coordenadores = m_coordenadores;
+        this.m_cursos = m_cursos;
+        this.m_alunos = m_alunos;
+        this.m_empresas = m_empresas;
+        this.m_professores = m_professores;
     }
 
 
@@ -39,16 +39,16 @@ public class Controller {
 
     @PostMapping("instituto/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public MInstituto AdicionarInstituto(@RequestBody MInstituto instituto) {
-        institutos.save(instituto);
+    public MInstituto adicionarInstituto(@RequestBody MInstituto instituto) {
+        m_institutos.save(instituto);
         return instituto;
     }
 
-    @GetMapping("instituto/get")
+    @GetMapping("institutos")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Iterable Institutos() {
-        return institutos.findAll();
+    public Iterable institutos() {
+        return m_institutos.findAll();
     }
 
     /**
@@ -57,8 +57,8 @@ public class Controller {
 
     @PostMapping("curso/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public MCurso AdicionarCurso(@RequestBody MCurso curso) {
-        cursos.save(curso);
+    public MCurso adicionarCurso(@RequestBody MCurso curso) {
+        m_cursos.save(curso);
         return curso;
     }
 
@@ -68,33 +68,44 @@ public class Controller {
 
     @PostMapping("alunos/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public MAluno AdicionarAluno(@RequestBody MAluno aluno) {
-        alunos.save(aluno);
+    public MAluno adicionarAluno(@RequestBody MAluno aluno) {
+        m_alunos.save(aluno);
         return aluno;
     }
 
-    @GetMapping("alunos/")
+    @GetMapping("alunos")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Iterable Alunos() {
-        return alunos.findAll();
-    }
+    public List<MAluno> alunos(@RequestParam(required = false) Long id) {
+        List<MAluno> resultado = new ArrayList<>();
 
-    @GetMapping("alunos/groupByOrientador/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public ResponseEntity<MAluno> getById(@PathVariable long id) {
-
-        Optional<MAluno> aluno = alunos.findById(id);
-        if (aluno.isPresent()) {
-            return new ResponseEntity<>(aluno.get(), HttpStatus.OK);
+        if (id == null) {
+            var listaAlunos = m_alunos.findAll();
+            for (var aluno : listaAlunos) {
+                resultado.add(aluno);
+            }
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            if (m_alunos.existsById(id))
+            {
+                resultado.add(m_alunos.findById(id).get());
+            }
         }
+
+        return resultado;
     }
 
-
-
-
+    @GetMapping("alunos/groupByOrientador/")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<MAluno> alunosMesmoOrientador(@RequestParam Long id) {
+        Iterable<MAluno> todosAlunos = m_alunos.findAll();
+        List<MAluno> alunosOrientados = new ArrayList<MAluno>();
+        for (MAluno aluno : todosAlunos) {
+            if (aluno.professorId == id) {
+                alunosOrientados.add(aluno);
+            }
+        }
+        return alunosOrientados;
+    }
 
 }
