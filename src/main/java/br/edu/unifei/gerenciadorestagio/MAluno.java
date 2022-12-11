@@ -23,7 +23,7 @@ public class MAluno {
     @Column(nullable = false )
     public String curso;
 
-    public ECampus ECampus;
+    public ECampus campus;
 
     public String telefone;
 
@@ -31,12 +31,12 @@ public class MAluno {
     public String email;
 
     @Column(nullable = false)
-    public Integer professorId;
+    public Long professorId;
 
     @Column(nullable = false)
-    public Integer enderecoId;
+    public Long enderecoId;
 
     @Column(nullable = false)
-    public Integer cursoId;
+    public Long cursoId;
 
 }
