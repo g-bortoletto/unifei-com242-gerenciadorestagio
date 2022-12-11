@@ -21,8 +21,10 @@ public class MCurso {
     @OneToMany()
     public List<MAluno> alunos = new ArrayList<MAluno>();
 
-    @OneToMany()
-    public List<MProfessor> professores = new ArrayList<MProfessor>();
+    @ManyToOne()
+    public  MProfessor professor;
 
+    @ManyToOne()
+    public  MInstituto instituto;
 
 }

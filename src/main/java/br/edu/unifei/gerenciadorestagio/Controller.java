@@ -35,7 +35,15 @@ public class Controller {
 
     /**
      * INSTITUTOS
-     */
+
+     * ROTAS - GET
+     * /institutos - consultar todos institutos                          --  OK
+     * /institutos/id - Consultar por um instituto especifico.           --  OK
+     *
+     * ROTAS - POST
+     * /institutos/add - criar instituto                                 -- OK
+     * */
+
 
     @PostMapping("instituto/add")
     @ResponseStatus(HttpStatus.CREATED)
@@ -44,16 +52,44 @@ public class Controller {
         return instituto;
     }
 
+
     @GetMapping("institutos")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Iterable institutos() {
-        return m_institutos.findAll();
-    }
+    public List<MInstituto> institutos(@RequestParam(required = false) String sigla) {
+        List<MInstituto> resultado = new ArrayList<>();
 
+        if (sigla == null) {
+            var listaInstitutos = m_institutos.findAll();
+            for (var institutos : listaInstitutos) {
+                resultado.add(institutos);
+            }
+        } else {
+            var listaInstitutos = m_institutos.findAll();
+            for (var instituto : listaInstitutos) {
+                System.out.println("charrrr");
+                System.out.print(sigla);
+
+                if (instituto.sigla.toUpperCase().matches(sigla.toUpperCase())  ) {
+                    System.out.print(instituto);
+                    resultado.add(instituto);
+                }
+            }
+        }
+        System.out.print(resultado);
+
+        return resultado;
+    }
     /**
      * CURSOS
-     */
+
+     * ROTAS - GET
+     * /cursos - consultar todos cursos                                     -- OK
+     * /cursos/instituto/id - Consultar por um instituto especifico.        -- Verificar o cadastro do curso.
+     *
+     * ROTAS - POST
+     * /cursos/add - criar curso                                            -- OK
+     * */
 
     @PostMapping("curso/add")
     @ResponseStatus(HttpStatus.CREATED)
@@ -62,10 +98,44 @@ public class Controller {
         return curso;
     }
 
+    @GetMapping("cursos")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Iterable cursos() {
+        return m_cursos.findAll();
+    }
+    @GetMapping("cursos/instituto")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<MCurso> cursosInstitutos(@RequestParam(required = true) String sigla) {
+        List resultado = new ArrayList<>();
+
+        m_institutos.findAll().forEach(mInstituto -> {
+            System.out.print(mInstituto.cursos);
+            if (mInstituto.sigla.toUpperCase().matches(sigla.toUpperCase())) {
+                resultado.addAll(mInstituto.cursos);
+            }
+        });
+//        for (var instituto : listaInstitutos) {
+//            if (instituto.sigla.toUpperCase().matches(sigla.toUpperCase())  ) {
+//                resultado = instituto.cursos;
+//                System.out.println(resultado);
+//            }
+//        }
+        return resultado;
+    }
+
     /**
      * ALUNOS
-     */
 
+     * ROTAS - GET
+     * /alunos - consultar todos alunos                                     -- OK
+     * /alunos/id - consultar aluno pelo id passado                         -- OK
+     * /alunos/orientador/id - Consultar por um orientador especifico.      -- OK
+     *
+     * ROTAS - POST
+     * /alunos/add - criar aluno                                            -- OK
+     * */
     @PostMapping("alunos/add")
     @ResponseStatus(HttpStatus.CREATED)
     public MAluno adicionarAluno(@RequestBody MAluno aluno) {
@@ -93,6 +163,47 @@ public class Controller {
 
         return resultado;
     }
+    @GetMapping("alunos/orientador")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<MAluno> alunosOrientador(@RequestParam(required = true) Long id) {
+        List<MAluno> resultado = new ArrayList<>();
 
+        var listaAlunos = m_alunos.findAll();
+        for (var aluno : listaAlunos) {
+            if (aluno.professorId == id) {
+
+                resultado.add(aluno);
+            }
+        }
+        return resultado;
+    }
+
+    /**
+     * PROFESSORES
+
+     * ROTAS - GET
+     * /professores - consultar todos professores                              --
+     * /professores/id - consultar professor pelo id passado                   --
+     * /professores/instituto/id - Consultar por um instituto especifico.      --
+     *
+     * ROTAS - POST
+     * /professores/add - criar professor                                      --
+     * */
+
+
+
+    /**
+     * PROJETOS
+
+     * ROTAS - GET
+     * /projetos - consultar todos projetos                                --
+     * /projetos/aluno/id - consultar projetos por aluno                   --
+     * /projetos/professores/id - consultar projetos por professor         --
+     * /projetos/tipoPesquisa  - Consultar pelo tipo especifico.           --
+     *
+     * ROTAS - POST
+     * /projetos/add - criar projeto                                       --
+     * */
 
 }
