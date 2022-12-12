@@ -1,5 +1,8 @@
 package br.edu.unifei.gerenciadorestagio;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +24,14 @@ public class MCurso {
     @OneToMany()
     public List<MAluno> alunos = new ArrayList<MAluno>();
 
-    @ManyToOne()
-    public  MProfessor professor;
+//    @ManyToOne()
+//    @JsonBackReference
+//    public  MProfessor professor;
 
-    @ManyToOne()
-    public  MInstituto instituto;
+//    @OneToMany( cascade = CascadeType.ALL)
+//    @JsonManagedReference
+//    public  List<MProfessor> professores = new ArrayList<>();
+//    @ManyToOne()
+//    public  MInstituto instituto;
 
 }
