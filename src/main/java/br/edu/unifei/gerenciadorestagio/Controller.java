@@ -1,10 +1,12 @@
 package br.edu.unifei.gerenciadorestagio;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import java.util.Optional;
 
 @RestController
@@ -184,12 +186,56 @@ public class Controller {
 
      * ROTAS - GET
      * /professores - consultar todos professores                              --
-     * /professores/id - consultar professor pelo id passado                   --
-     * /professores/instituto/id - Consultar por um instituto especifico.      --
+     * /professores/id - consultar professor pelo id passado                   -- OK
+     * /professores/instituto - Consultar por um instituto especifico.         -- OK
      *
      * ROTAS - POST
-     * /professores/add - criar professor                                      --
+     * /professores/add - criar professor                                      -- OK
      * */
+    @PostMapping("professores/add")
+    @ResponseStatus(HttpStatus.CREATED)
+    public MProfessor adicionarProfessor(@RequestBody MProfessor professor) {
+        m_professores.save(professor);
+        return professor;
+    }
+
+    @GetMapping("professores")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<MProfessor> professores(@RequestParam(required = false) Long id) {
+        List<MProfessor> resultado = new ArrayList<>();
+
+        if (id == null) {
+            var listaProfessores = m_professores.findAll();
+            for (var professor : listaProfessores) {
+                resultado.add(professor);
+            }
+        } else {
+            System.out.print("Teste");
+            if (m_professores.existsById(id))
+            {
+                resultado.add(m_professores.findById(id).get());
+            }
+        }
+
+        return resultado;
+    }
+    @GetMapping("professores/instituto")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<MProfessor> professoresInstituto(@RequestParam(required = true) String sigla) {
+        List<MProfessor> resultado = new ArrayList<>();
+
+        var listaAlunos = m_professores.findAll();
+        for (var professor : listaAlunos) {
+
+            if (professor.instituto != null && professor.instituto.toUpperCase().matches(sigla.toUpperCase())) {
+
+                resultado.add(professor);
+            }
+        }
+        return resultado;
+    }
 
 
 

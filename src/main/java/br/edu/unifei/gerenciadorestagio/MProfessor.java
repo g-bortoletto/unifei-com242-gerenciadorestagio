@@ -32,7 +32,9 @@ public class MProfessor {
     @Column(nullable = false)
     public Integer enderecoId;
 
-    @OneToMany(mappedBy = "professor", cascade = CascadeType.ALL)
+    public String instituto;
+
+    @OneToMany ( cascade = CascadeType.ALL)
     public  List<MCurso> cursos;
 
     @OneToMany(cascade = CascadeType.ALL)
