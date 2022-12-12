@@ -34,7 +34,7 @@ public class MProfessor {
     @Column(nullable = false)
     public Integer enderecoId;
 
-    public String instituto;
+//    public String instituto;
 
 //    @OneToMany(mappedBy = "professor", cascade = CascadeType.ALL)
 //    @JsonManagedReference
@@ -43,6 +43,10 @@ public class MProfessor {
 //    @JsonBackReference
 //    public  MCurso curso;
 //
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "instituto_id")
+    @JsonBackReference
+    public MInstituto instituto;
 
     @OneToMany(cascade = CascadeType.ALL)
     public List<MAluno> alunos = new ArrayList<MAluno>();

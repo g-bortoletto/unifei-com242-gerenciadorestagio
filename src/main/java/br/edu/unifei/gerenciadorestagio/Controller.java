@@ -226,14 +226,19 @@ public class Controller {
     public List<MProfessor> professoresInstituto(@RequestParam(required = true) String sigla) {
         List<MProfessor> resultado = new ArrayList<>();
 
-        var listaAlunos = m_professores.findAll();
-        for (var professor : listaAlunos) {
-
-            if (professor.instituto != null && professor.instituto.toUpperCase().matches(sigla.toUpperCase())) {
-
-                resultado.add(professor);
+        m_institutos.findAll().forEach(instituto -> {
+            if (instituto.sigla.toUpperCase().matches(sigla.toUpperCase())) {
+                resultado.addAll(instituto.professores);
             }
-        }
+        });
+//        for (var professor : listaAlunos) {
+//
+//
+//            if (professor.instituto != null && professor.instituto.toUpperCase().matches(sigla.toUpperCase())) {
+//
+//                resultado.add(professor);
+//            }
+//        }
         return resultado;
     }
 
