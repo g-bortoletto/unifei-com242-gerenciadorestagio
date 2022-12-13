@@ -16,5 +16,6 @@ public class MEmpresa {
     public String tipoEmpresa;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "endereco_id", referencedColumnName="id")
     public MEndereco endereco;
 }

@@ -18,6 +18,7 @@ public class Controller {
     public final IRAluno m_alunos;
     public final IREmpresa m_empresas;
     public final IRProfessor m_professores;
+    public final IRInfoEstagio m_infoEstagio;
 
     Controller(
         IRInstituto m_institutos,
@@ -25,13 +26,16 @@ public class Controller {
         IRCurso m_cursos,
         IRAluno m_alunos,
         IREmpresa m_empresas,
-        IRProfessor m_professores) {
+        IRProfessor m_professores,
+        IRInfoEstagio m_infoEstagio )
+        {
         this.m_institutos = m_institutos;
         this.m_coordenadores = m_coordenadores;
         this.m_cursos = m_cursos;
         this.m_alunos = m_alunos;
         this.m_empresas = m_empresas;
         this.m_professores = m_professores;
+        this.m_infoEstagio = m_infoEstagio;
     }
 
 
@@ -87,7 +91,7 @@ public class Controller {
 
      * ROTAS - GET
      * /cursos - consultar todos cursos                                     -- OK
-     * /cursos/instituto/id - Consultar por um instituto especifico.        -- Verificar o cadastro do curso.
+     * /cursos/instituto/id - Consultar por um instituto especifico.        -- OK
      *
      * ROTAS - POST
      * /cursos/add - criar curso                                            -- OK
@@ -173,7 +177,7 @@ public class Controller {
 
         var listaAlunos = m_alunos.findAll();
         for (var aluno : listaAlunos) {
-            if (aluno.professorId == id) {
+            if (aluno.professor.id == id) {
 
                 resultado.add(aluno);
             }
@@ -248,13 +252,65 @@ public class Controller {
      * PROJETOS
 
      * ROTAS - GET
-     * /projetos - consultar todos projetos                                --
+     * /projetos - consultar todos projetos                                -- o
      * /projetos/aluno/id - consultar projetos por aluno                   --
      * /projetos/professores/id - consultar projetos por professor         --
-     * /projetos/tipoPesquisa  - Consultar pelo tipo especifico.           --
+     * /projetos/tipoPesquisa  - Consultar pelo tipo especifico.           -- Só tem o tipo estagio. nao implementado
+     * /projetos/instituto  - Consultar pelo instituto                     -- OK
      *
      * ROTAS - POST
-     * /projetos/add - criar projeto                                       --
+     * /projetos/add - criar projeto                                       -- OK
      * */
+
+    @PostMapping("projetos/add")
+    @ResponseStatus(HttpStatus.CREATED)
+    public MInfoEstagio adicionarProjeto(@RequestBody MInfoEstagio infoEstagio) {
+
+        m_infoEstagio.save(infoEstagio);
+        return infoEstagio;
+    }
+
+    @GetMapping("projetos")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<MInfoEstagio> projetos(@RequestParam(required = false) Long id) {
+        List<MInfoEstagio> resultado = new ArrayList<>();
+
+        if (id == null) {
+            var listaProjetos = m_infoEstagio.findAll();
+            for (var projeto : listaProjetos) {
+                resultado.add(projeto);
+            }
+        } else {
+            if (m_infoEstagio.existsById(id))
+            {
+                resultado.add(m_infoEstagio.findById(id).get());
+            }
+        }
+
+        return resultado;
+    }
+
+    @GetMapping("projetos/instituto")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<MInfoEstagio> projetosInstituto(@RequestParam(required = true) String sigla) {
+        List<MInfoEstagio> resultado = new ArrayList<>();
+
+        m_institutos.findAll().forEach(instituto -> {
+            if (instituto.sigla.toUpperCase().matches(sigla.toUpperCase())) {
+                resultado.addAll(instituto.projetos);
+            }
+        });
+//        for (var professor : listaAlunos) {
+//
+//
+//            if (professor.instituto != null && professor.instituto.toUpperCase().matches(sigla.toUpperCase())) {
+//
+//                resultado.add(professor);
+//            }
+//        }
+        return resultado;
+    }
 
 }

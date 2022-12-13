@@ -1,6 +1,7 @@
 package br.edu.unifei.gerenciadorestagio;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -31,24 +32,22 @@ public class MProfessor {
     @Column(nullable = false )
     public String email;
 
-    @Column(nullable = false)
-    public Integer enderecoId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "endereco_id", referencedColumnName="id")
+    public MEndereco endereco;
 
-//    public String instituto;
 
-//    @OneToMany(mappedBy = "professor", cascade = CascadeType.ALL)
-//    @JsonManagedReference
-//    public  List<MCurso> cursos = new ArrayList<>();
-//    @ManyToOne()
-//    @JsonBackReference
-//    public  MCurso curso;
-//
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "instituto_id")
+    @JoinColumn(name = "instituto_id", referencedColumnName="id")
     @JsonBackReference
     public MInstituto instituto;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    public List<MAluno> alunos = new ArrayList<MAluno>();
+    @OneToMany(mappedBy = "professor")
+    @JsonManagedReference
+    public List<MAluno> alunos ;
+
+    @OneToMany(mappedBy = "professor")
+    @JsonManagedReference
+    public List<MInfoEstagio> infoEstagios ;
 
 }

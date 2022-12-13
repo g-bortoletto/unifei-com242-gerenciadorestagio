@@ -22,9 +22,11 @@ public class MCoordenador {
     public String telefone;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "instituto_id", referencedColumnName="id")
     public MInstituto instituto;
     public String senha;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "endereco_id", referencedColumnName="id")
     public MEndereco endereco;
 }

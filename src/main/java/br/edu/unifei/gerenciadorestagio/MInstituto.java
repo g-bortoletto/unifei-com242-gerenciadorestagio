@@ -11,14 +11,21 @@ public class MInstituto {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Long id;
-
+    @Column(unique = true, nullable = false)
     public String nome;
+    @Column(unique = true, nullable = false)
     public String sigla;
 
-    @OneToMany()
-    public List<MCurso> cursos = new ArrayList<MCurso>();
+
+    @OneToMany(mappedBy = "instituto")
+    @JsonManagedReference
+    public List<MCurso> cursos ;
 
     @OneToMany(mappedBy = "instituto")
     @JsonManagedReference
     public List<MProfessor> professores ;
+
+    @OneToMany(mappedBy = "instituto")
+    @JsonManagedReference
+    public List<MInfoEstagio> projetos ;
 }

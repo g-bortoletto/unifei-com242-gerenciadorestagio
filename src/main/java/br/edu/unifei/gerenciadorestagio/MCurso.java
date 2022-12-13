@@ -21,17 +21,16 @@ public class MCurso {
 
     public EPeriodo periodo;
 
-    @OneToMany()
-    public List<MAluno> alunos = new ArrayList<MAluno>();
+//    @OneToMany()
+//    public List<MAluno> alunos = new ArrayList<MAluno>();
+    @OneToMany(mappedBy = "curso")
+    @JsonManagedReference
+    public List<MAluno> alunos ;
 
-//    @ManyToOne()
-//    @JsonBackReference
-//    public  MProfessor professor;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "instituto_id", referencedColumnName="id")
+    @JsonBackReference
+    public MInstituto instituto;
 
-//    @OneToMany( cascade = CascadeType.ALL)
-//    @JsonManagedReference
-//    public  List<MProfessor> professores = new ArrayList<>();
-//    @ManyToOne()
-//    public  MInstituto instituto;
 
 }

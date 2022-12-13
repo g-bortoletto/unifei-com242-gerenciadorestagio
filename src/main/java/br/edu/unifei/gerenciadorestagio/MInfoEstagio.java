@@ -1,5 +1,7 @@
 package br.edu.unifei.gerenciadorestagio;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -9,14 +11,15 @@ public class MInfoEstagio {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    public MEmpresa empresa;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    public MEmpresa empresa;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "aluno_matricula", referencedColumnName="matricula")
     public MAluno aluno;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    public MProfessor professor;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    public MProfessor professor;
 
     public Integer semestre;
 
@@ -57,5 +60,25 @@ public class MInfoEstagio {
     public String descricaoMeios;
 
     public String descricaoDisciplinas;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "professor_id", referencedColumnName="id")
+    @JsonBackReference
+    public MProfessor professor;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "instituto_id", referencedColumnName="id")
+    @JsonBackReference
+    public MInstituto instituto;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "empresa_id", referencedColumnName="id")
+    @JsonBackReference
+    public MEmpresa empresa;
+
+    // NAO por isso ainda nao. Simplficar por enquanto.
+
+
+
 
 }

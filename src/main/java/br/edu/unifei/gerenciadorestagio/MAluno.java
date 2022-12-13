@@ -1,5 +1,7 @@
 package br.edu.unifei.gerenciadorestagio;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -20,8 +22,8 @@ public class MAluno {
     @Column(unique = true)
     public String matricula;
 
-    @Column(nullable = false )
-    public String curso;
+//    @Column(nullable = false )
+//    public String curso;
 
     public ECampus campus;
 
@@ -30,13 +32,23 @@ public class MAluno {
     @Column(nullable = false )
     public String email;
 
-    @Column(nullable = false)
-    public Long professorId;
+//    @Column(nullable = false)
+//    public Long professorId;
 
-    @Column(nullable = false)
-    public Long enderecoId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "endereco_id", referencedColumnName="id")
+    public MEndereco endereco;
 
-    @Column(nullable = false)
-    public Long cursoId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "curso_id", referencedColumnName="id")
+    @JsonBackReference
+    public MCurso curso;
 
+//    @Column(nullable = false)
+//    public Long cursoId;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "professor_id", referencedColumnName="id")
+    @JsonBackReference
+    public MProfessor professor;
 }
