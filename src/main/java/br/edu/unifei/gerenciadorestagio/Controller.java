@@ -50,7 +50,7 @@ public class Controller {
      * /institutos/id - Consultar por um instituto especifico.           --  OK
      *
      * ROTAS - POST
-     * /institutos/add - criar instituto                                 -- OK
+     * /instituto/add- criar instituto                                 -- OK
      * */
 
 
@@ -98,7 +98,7 @@ public class Controller {
      * /cursos/instituto/id - Consultar por um instituto especifico.        -- OK
      *
      * ROTAS - POST
-     * /cursos/add - criar curso                                            -- OK
+     * /curso/{institutoId}/add - criar curso                                            -- OK
      * */
 
 //    @PostMapping("curso/add")
@@ -201,7 +201,7 @@ public class Controller {
      * /professores/instituto - Consultar por um instituto especifico.         -- OK
      *
      * ROTAS - POST
-     * /professores/add - criar professor                                      -- OK
+     * /professores/{institutoId}/add - criar professor                                      -- OK
      * */
     @PostMapping("professores/add")
     @ResponseStatus(HttpStatus.CREATED)
@@ -260,11 +260,10 @@ public class Controller {
      * PROJETOS
 
      * ROTAS - GET
-     * /projetos - consultar todos projetos                                -- o
+     * /projetos - consultar todos projetos                                -- OK
+     * /projetos/id                                                        -- ok
      * /projetos/aluno/id - consultar projetos por aluno                   --
-     * /projetos/professores/id - consultar projetos por professor         --
-     * /projetos/tipoPesquisa  - Consultar pelo tipo especifico.           -- Só tem o tipo estagio. nao implementado
-     * /projetos/instituto  - Consultar pelo instituto                     -- OK
+
      *
      * ROTAS - POST
      * /projetos/add - criar projeto                                       -- OK
@@ -277,13 +276,31 @@ public class Controller {
             return m_infoEstagio.save(projeto);
         }).orElseThrow(() -> new ResourceNotFoundException("institutoId " + alunoId + " not found"));
     }
-    @PostMapping("projetos/add")
-    @ResponseStatus(HttpStatus.CREATED)
-    public MInfoEstagio adicionarProjeto(@RequestBody MInfoEstagio infoEstagio) {
+//    @PostMapping("projetos/add")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public MInfoEstagio adicionarProjeto(@RequestBody MInfoEstagio infoEstagio) {
+//
+//        m_infoEstagio.save(infoEstagio);
+//        return infoEstagio;
+//    }
+    @GetMapping("projetos/aluno")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<MInfoEstagio> projetosAluno(@RequestParam(required = true) Long id) {
+    List<MInfoEstagio> resultado = new ArrayList<>();
 
-        m_infoEstagio.save(infoEstagio);
-        return infoEstagio;
-    }
+
+        var listaProjetos = m_infoEstagio.findAll();
+        for (var projeto : listaProjetos) {
+            if (projeto.aluno.id == id){
+                resultado.add(projeto);
+            }
+
+        }
+//    }
+
+    return resultado;
+}
 
     @GetMapping("projetos")
     @ResponseStatus(HttpStatus.OK)
