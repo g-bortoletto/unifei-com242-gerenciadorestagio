@@ -37,11 +37,12 @@ public class MAluno {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id", referencedColumnName="id")
+    @JsonBackReference
     public MEndereco endereco;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "curso_id", referencedColumnName="id")
-//    @JsonBackReference
+    @JsonBackReference
     public MCurso curso;
 
 //    @Column(nullable = false)

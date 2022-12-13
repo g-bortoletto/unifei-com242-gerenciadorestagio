@@ -26,7 +26,7 @@ public class MCurso implements Serializable {
 //    @OneToMany()
 //    public List<MAluno> alunos = new ArrayList<MAluno>();
     @OneToMany(mappedBy = "curso")
-//    @JsonManagedReference
+    @JsonManagedReference
     public List<MAluno> alunos ;
 
 //    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
