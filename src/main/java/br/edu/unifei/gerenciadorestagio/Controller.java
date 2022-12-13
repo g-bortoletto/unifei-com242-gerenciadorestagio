@@ -1,8 +1,11 @@
 package br.edu.unifei.gerenciadorestagio;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import org.apache.kafka.common.errors.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
+import javax.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +57,7 @@ public class Controller {
     @PostMapping("instituto/add")
     @ResponseStatus(HttpStatus.CREATED)
     public MInstituto adicionarInstituto(@RequestBody MInstituto instituto) {
+
         m_institutos.save(instituto);
         return instituto;
     }
@@ -97,19 +101,28 @@ public class Controller {
      * /cursos/add - criar curso                                            -- OK
      * */
 
-    @PostMapping("curso/add")
-    @ResponseStatus(HttpStatus.CREATED)
-    public MCurso adicionarCurso(@RequestBody MCurso curso) {
-        m_cursos.save(curso);
-        return curso;
+//    @PostMapping("curso/add")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public MCurso adicionarCurso(@RequestBody MCurso curso) {
+//
+//        m_cursos.save(curso);
+//        return curso;
+//    }
+    @PostMapping("/curso/{institutoId}/add")
+    public MCurso createCurso(@PathVariable (value = "institutoId") Long institutoId,
+                                 @Valid @RequestBody MCurso curso) {
+        return m_institutos.findById(institutoId).map(post -> {
+            curso.setTnstituto(post);
+            return m_cursos.save(curso);
+        }).orElseThrow(() -> new ResourceNotFoundException("institutoId " + institutoId + " not found"));
     }
-
     @GetMapping("cursos")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public Iterable cursos() {
         return m_cursos.findAll();
     }
+
     @GetMapping("cursos/instituto")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -122,12 +135,6 @@ public class Controller {
                 resultado.addAll(mInstituto.cursos);
             }
         });
-//        for (var instituto : listaInstitutos) {
-//            if (instituto.sigla.toUpperCase().matches(sigla.toUpperCase())  ) {
-//                resultado = instituto.cursos;
-//                System.out.println(resultado);
-//            }
-//        }
         return resultado;
     }
 
@@ -177,7 +184,7 @@ public class Controller {
 
         var listaAlunos = m_alunos.findAll();
         for (var aluno : listaAlunos) {
-            if (aluno.professor.id == id) {
+            if (aluno.professorId == id) {
 
                 resultado.add(aluno);
             }
@@ -224,6 +231,14 @@ public class Controller {
 
         return resultado;
     }
+    @PostMapping("/professores/{institutoId}/add")
+    public MProfessor createProfessor(@PathVariable (value = "institutoId") Long institutoId,
+                              @Valid @RequestBody MProfessor professor) {
+        return m_institutos.findById(institutoId).map(post -> {
+            professor.setTnstituto(post);
+            return m_professores.save(professor);
+        }).orElseThrow(() -> new ResourceNotFoundException("institutoId " + institutoId + " not found"));
+    }
     @GetMapping("professores/instituto")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -235,14 +250,7 @@ public class Controller {
                 resultado.addAll(instituto.professores);
             }
         });
-//        for (var professor : listaAlunos) {
 //
-//
-//            if (professor.instituto != null && professor.instituto.toUpperCase().matches(sigla.toUpperCase())) {
-//
-//                resultado.add(professor);
-//            }
-//        }
         return resultado;
     }
 
@@ -261,7 +269,14 @@ public class Controller {
      * ROTAS - POST
      * /projetos/add - criar projeto                                       -- OK
      * */
-
+    @PostMapping("/projetos/{alunoId}/add")
+    public MInfoEstagio createProjeto(@PathVariable (value = "alunoId") Long alunoId,
+                                      @Valid @RequestBody MInfoEstagio projeto) {
+        return m_alunos.findById(alunoId).map(post -> {
+            projeto.setAluno(post);
+            return m_infoEstagio.save(projeto);
+        }).orElseThrow(() -> new ResourceNotFoundException("institutoId " + alunoId + " not found"));
+    }
     @PostMapping("projetos/add")
     @ResponseStatus(HttpStatus.CREATED)
     public MInfoEstagio adicionarProjeto(@RequestBody MInfoEstagio infoEstagio) {
@@ -291,17 +306,17 @@ public class Controller {
         return resultado;
     }
 
-    @GetMapping("projetos/instituto")
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public List<MInfoEstagio> projetosInstituto(@RequestParam(required = true) String sigla) {
-        List<MInfoEstagio> resultado = new ArrayList<>();
-
-        m_institutos.findAll().forEach(instituto -> {
-            if (instituto.sigla.toUpperCase().matches(sigla.toUpperCase())) {
-                resultado.addAll(instituto.projetos);
-            }
-        });
+//    @GetMapping("projetos/instituto")
+//    @ResponseStatus(HttpStatus.OK)
+//    @ResponseBody
+//    public List<MInfoEstagio> projetosInstituto(@RequestParam(required = true) String sigla) {
+//        List<MInfoEstagio> resultado = new ArrayList<>();
+//
+//        m_institutos.findAll().forEach(instituto -> {
+//            if (instituto.sigla.toUpperCase().matches(sigla.toUpperCase())) {
+//                resultado.addAll(instituto.projetos);
+//            }
+//        });
 //        for (var professor : listaAlunos) {
 //
 //
@@ -310,7 +325,7 @@ public class Controller {
 //                resultado.add(professor);
 //            }
 //        }
-        return resultado;
-    }
+//        return resultado;
+//    }
 
 }

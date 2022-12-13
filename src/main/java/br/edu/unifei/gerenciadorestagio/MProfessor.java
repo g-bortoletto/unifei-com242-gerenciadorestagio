@@ -1,14 +1,16 @@
 package br.edu.unifei.gerenciadorestagio;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class MProfessor {
+public class MProfessor implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Long id;
@@ -37,17 +39,25 @@ public class MProfessor {
     public MEndereco endereco;
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "instituto_id", referencedColumnName="id")
-    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "instituto_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+    @JsonIdentityReference(alwaysAsId=true)
+    @JsonProperty("instituto_id")
+//    @JsonBackReference(value = "instituto_curso")
     public MInstituto instituto;
 
-    @OneToMany(mappedBy = "professor")
-    @JsonManagedReference
-    public List<MAluno> alunos ;
+//    @OneToMany(mappedBy = "professor")
+////    @JsonManagedReference
+//    public List<MAluno> alunos ;
 
-    @OneToMany(mappedBy = "professor")
-    @JsonManagedReference
-    public List<MInfoEstagio> infoEstagios ;
+//    @OneToMany(mappedBy = "professor")
+////    @JsonManagedReference
+//    public List<MInfoEstagio> infoEstagios ;
+
+    public void setTnstituto(MInstituto instituto) {
+        this.instituto = instituto;
+    }
 
 }

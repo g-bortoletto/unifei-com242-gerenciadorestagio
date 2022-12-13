@@ -3,6 +3,7 @@ package br.edu.unifei.gerenciadorestagio;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -15,7 +16,7 @@ public class MInfoEstagio {
 //    public MEmpresa empresa;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "aluno_matricula", referencedColumnName="matricula")
+    @JoinColumn(name = "aluno_matricula", referencedColumnName="id")
     public MAluno aluno;
 
 //    @OneToOne(cascade = CascadeType.ALL)
@@ -61,23 +62,29 @@ public class MInfoEstagio {
 
     public String descricaoDisciplinas;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "professor_id", referencedColumnName="id")
-    @JsonBackReference
-    public MProfessor professor;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "instituto_id", referencedColumnName="id")
-    @JsonBackReference
-    public MInstituto instituto;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "empresa_id", referencedColumnName="id")
-    @JsonBackReference
-    public MEmpresa empresa;
+    public Integer professor_id;
+//
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "professor_id", referencedColumnName="id")
+////    @JsonBackReference
+//    public MProfessor professor;
+//
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "instituto_id", referencedColumnName="id")
+//    @JsonBackReference(value = "instituto_projeto")
+//    public MInstituto instituto;
+//
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "empresa_id", referencedColumnName="id")
+////    @JsonBackReference
+//    public MEmpresa empresa;
 
     // NAO por isso ainda nao. Simplficar por enquanto.
+//    public MAluno projeto;
 
+    public void setAluno(MAluno aluno) {
+        this.aluno = aluno;
+    }
 
 
 

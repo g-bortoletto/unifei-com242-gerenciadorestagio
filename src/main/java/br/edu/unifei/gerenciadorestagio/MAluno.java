@@ -32,8 +32,8 @@ public class MAluno {
     @Column(nullable = false )
     public String email;
 
-//    @Column(nullable = false)
-//    public Long professorId;
+    @Column(nullable = false)
+    public Long professorId;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id", referencedColumnName="id")
@@ -41,14 +41,21 @@ public class MAluno {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "curso_id", referencedColumnName="id")
-    @JsonBackReference
+//    @JsonBackReference
     public MCurso curso;
 
 //    @Column(nullable = false)
 //    public Long cursoId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "professor_id", referencedColumnName="id")
-    @JsonBackReference
-    public MProfessor professor;
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "professor_id", referencedColumnName="id")
+////    @JsonBackReference
+//    public MProfessor professor;
+
+//    public MInfoEstagio projeto;
+//
+//    public void setProjeto(MInfoEstagio projeto) {
+//        this.projeto = projeto;
+//    }
+
 }
