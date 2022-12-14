@@ -42,7 +42,7 @@ public class MAluno {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "curso_id", referencedColumnName="id")
-    @JsonBackReference
+    @JsonBackReference(value = "cursoAluno")
     public MCurso curso;
 
 //    @Column(nullable = false)
