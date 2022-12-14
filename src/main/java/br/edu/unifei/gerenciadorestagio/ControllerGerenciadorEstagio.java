@@ -1,19 +1,15 @@
 package br.edu.unifei.gerenciadorestagio;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.apache.kafka.common.errors.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
-import javax.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import java.util.Optional;
-
 @RestController
-public class Controller {
+public class ControllerGerenciadorEstagio {
 
     public final IRInstituto m_institutos;
     public final IRCoordenador m_coordenadores;
@@ -23,7 +19,7 @@ public class Controller {
     public final IRProfessor m_professores;
     public final IRInfoEstagio m_infoEstagio;
 
-    Controller(
+    ControllerGerenciadorEstagio(
         IRInstituto m_institutos,
         IRCoordenador m_coordenadores,
         IRCurso m_cursos,

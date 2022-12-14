@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages={"br.edu.unifei.gerenciadorestagio", "br.edu.unifei.mural"})
 @EnableJpaAuditing
 
 public class GerenciadorEstagioApplication {
