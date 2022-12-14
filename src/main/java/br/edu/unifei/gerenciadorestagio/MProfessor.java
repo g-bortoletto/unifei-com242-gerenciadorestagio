@@ -56,6 +56,7 @@ public class MProfessor implements Serializable {
 ////    @JsonManagedReference
 //    public List<MInfoEstagio> infoEstagios ;
 
+//    @JsonIgnore
     public void setTnstituto(MInstituto instituto) {
         this.instituto = instituto;
     }

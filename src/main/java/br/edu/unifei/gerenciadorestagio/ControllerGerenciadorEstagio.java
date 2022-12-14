@@ -1,6 +1,8 @@
 package br.edu.unifei.gerenciadorestagio;
 
 import org.apache.kafka.common.errors.ResourceNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
@@ -204,6 +206,16 @@ public class ControllerGerenciadorEstagio {
     public MProfessor adicionarProfessor(@RequestBody MProfessor professor) {
         m_professores.save(professor);
         return professor;
+    }
+    @GetMapping("/professores/all")
+    public List<MProfessor> getAllProfessor(@RequestParam(required = false) Long professorId) {
+        List<MProfessor> resultado = new ArrayList<>();
+
+        var listaProfessores = m_professores.findAll();
+        for (var professor : listaProfessores) {
+            resultado.add(professor);
+        }
+        return  resultado;
     }
 
     @GetMapping("professores")
