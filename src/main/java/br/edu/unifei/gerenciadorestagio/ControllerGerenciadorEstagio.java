@@ -230,7 +230,6 @@ public class ControllerGerenciadorEstagio {
                 resultado.add(professor);
             }
         } else {
-            System.out.print("Teste");
             if (m_professores.existsById(id))
             {
                 resultado.add(m_professores.findById(id).get());

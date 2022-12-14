@@ -39,13 +39,12 @@ public class MProfessor implements Serializable {
     public MEndereco endereco;
 
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "instituto_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
     @JsonProperty("instituto_id")
-//    @JsonBackReference(value = "instituto_curso")
     public MInstituto instituto;
 
 //    @OneToMany(mappedBy = "professor")
